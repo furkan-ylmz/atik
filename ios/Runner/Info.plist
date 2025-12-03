@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Atık tespiti için kameraya erişim gerekiyor.</string>
 </dict>
 </plist>
