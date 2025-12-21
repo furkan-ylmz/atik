@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import '../models/scan_history.dart';
 import '../models/detection_result.dart';
 import '../services/database_service.dart';
+import '../services/detection_service.dart';
+import '../widgets/detection_painter.dart';
 
 class ResultScreen extends StatefulWidget {
   final String imagePath;
@@ -20,32 +23,59 @@ class _ResultScreenState extends State<ResultScreen> {
   bool _isLoading = true;
   List<DetectionResult> _detections = [];
   Map<String, int> _classCounts = {};
+  ui.Image? _image;
+  Size _imageSize = Size.zero;
 
   @override
   void initState() {
     super.initState();
+    _loadImage();
     _runDetection();
   }
 
+  Future<void> _loadImage() async {
+    final file = File(widget.imagePath);
+    final bytes = await file.readAsBytes();
+    final codec = await ui.instantiateImageCodec(bytes);
+    final frame = await codec.getNextFrame();
+    
+    if (mounted) {
+      setState(() {
+        _image = frame.image;
+        _imageSize = Size(
+          frame.image.width.toDouble(),
+          frame.image.height.toDouble(),
+        );
+      });
+    }
+  }
+
   Future<void> _runDetection() async {
-    // Simüle edilmiş tespit sonuçları (Model entegrasyonu sonrası gerçek sonuçlar kullanılacak)
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Gerçek model çalıştır
+      final detections = await DetectionService.detectObjects(widget.imagePath);
 
-    // TODO: Burada gerçek model çalıştırılacak
-    // Şu an için örnek veri
-    setState(() {
-      _detections = [
-        DetectionResult(className: 'Plastik', confidence: 0.95, box: [100, 100, 200, 200]),
-        DetectionResult(className: 'Kağıt', confidence: 0.88, box: [300, 150, 180, 220]),
-        DetectionResult(className: 'Plastik', confidence: 0.92, box: [150, 400, 190, 210]),
-      ];
-      
-      _calculateClassCounts();
-      _isLoading = false;
-    });
+      if (mounted) {
+        setState(() {
+          _detections = detections;
+          _calculateClassCounts();
+          _isLoading = false;
+        });
 
-    // Sonuçları veritabanına kaydet
-    await _saveToDatabase();
+        // Sonuçları veritabanına kaydet
+        await _saveToDatabase();
+      }
+    } catch (e) {
+      print('Tespit hatası: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Model hatası: $e')),
+        );
+      }
+    }
   }
 
   void _calculateClassCounts() {
@@ -72,18 +102,37 @@ class _ResultScreenState extends State<ResultScreen> {
         children: [
           // Fotoğraf bölümü
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Stack(
               children: [
-                // Fotoğraf
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    image: DecorationImage(
-                      image: FileImage(File(widget.imagePath)),
-                      fit: BoxFit.contain,
+                // Fotoğraf - ortalanmış
+                Center(
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.6,
                     ),
+                    child: _image != null && _detections.isNotEmpty
+                        ? Stack(
+                            children: [
+                              Image.file(
+                                File(widget.imagePath),
+                                fit: BoxFit.contain,
+                              ),
+                              Positioned.fill(
+                                child: CustomPaint(
+                                  painter: DetectionPainter(
+                                    imageFile: File(widget.imagePath),
+                                    detections: _detections,
+                                    imageSize: _imageSize,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Image.file(
+                            File(widget.imagePath),
+                            fit: BoxFit.contain,
+                          ),
                   ),
                 ),
                 
@@ -192,10 +241,9 @@ class _ResultScreenState extends State<ResultScreen> {
                             Expanded(
                               child: ListView.builder(
                                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                                itemCount: _classCounts.length,
+                                itemCount: _detections.length,
                                 itemBuilder: (context, index) {
-                                  final className = _classCounts.keys.elementAt(index);
-                                  final count = _classCounts[className]!;
+                                  final detection = _detections[index];
                                   
                                   return Container(
                                     margin: const EdgeInsets.only(bottom: 12),
@@ -223,13 +271,27 @@ class _ResultScreenState extends State<ResultScreen> {
                                         ),
                                         const SizedBox(width: 16),
                                         Expanded(
-                                          child: Text(
-                                            className,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xFF2C3E50),
-                                            ),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                detection.className,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xFF2C3E50),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                'Doğruluk: ${(detection.confidence * 100).toStringAsFixed(1)}%',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey[600],
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         Container(
@@ -239,7 +301,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                             borderRadius: BorderRadius.circular(20),
                                           ),
                                           child: Text(
-                                            '$count adet',
+                                            '#${index + 1}',
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,

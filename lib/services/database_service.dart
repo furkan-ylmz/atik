@@ -76,30 +76,24 @@ class DatabaseService {
     );
   }
 
-  Future<int> deleteScansByClass(String className) async {
+  Future<int> deleteAllScans() async {
     final allScans = await getAllScans();
-    int deletedCount = 0;
-
+    
+    // Tüm resim dosyalarını sil
     for (var scan in allScans) {
-      // Bu scan'deki tüm detections'lar belirtilen sınıfa mı ait?
-      final hasOnlyThisClass = scan.detections.every((d) => d.className == className);
-      
-      if (hasOnlyThisClass && scan.detections.isNotEmpty) {
-        await deleteScan(scan.id!);
-        // İlgili resim dosyasını da sil
-        try {
-          final file = File(scan.imagePath);
-          if (await file.exists()) {
-            await file.delete();
-          }
-        } catch (e) {
-          print('Dosya silinirken hata: $e');
+      try {
+        final file = File(scan.imagePath);
+        if (await file.exists()) {
+          await file.delete();
         }
-        deletedCount++;
+      } catch (e) {
+        print('Dosya silinirken hata: $e');
       }
     }
-
-    return deletedCount;
+    
+    // Veritabanındaki tüm kayıtları sil
+    final db = await database;
+    return await db.delete('scan_history');
   }
 
   Future<Map<String, int>> getTotalClassCounts() async {
