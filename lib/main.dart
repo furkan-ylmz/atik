@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/splash_screen.dart';
 import 'utils/app_theme.dart';
+import 'services/detection_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // Sadece portrait modu
@@ -11,6 +12,13 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  
+  // Model servisini başlat
+  try {
+    await DetectionService.initialize();
+  } catch (e) {
+    print('Model başlatma hatası: $e');
+  }
   
   runApp(const MyApp());
 }

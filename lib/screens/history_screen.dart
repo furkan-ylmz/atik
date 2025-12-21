@@ -80,12 +80,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
-  Future<void> _deleteByClass(String className) async {
+  Future<void> _clearAllData() async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('$className Verilerini Sil'),
-        content: Text('$className etiketli tüm taramaları silmek istediğinizden emin misiniz?'),
+        title: const Text('Tüm Verileri Temizle'),
+        content: const Text('Tüm tarama geçmişini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -94,14 +94,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Sil'),
+            child: const Text('Tümünü Sil'),
           ),
         ],
       ),
     );
 
     if (confirm == true) {
-      final deletedCount = await DatabaseService.instance.deleteScansByClass(className);
+      final deletedCount = await DatabaseService.instance.deleteAllScans();
       _loadHistory();
       
       if (mounted) {
@@ -112,51 +112,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
-  void _showDeleteMenu() {
-    if (_totalCounts.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Silinecek veri yok')),
-      );
-      return;
-    }
-
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Sınıf Bazlı Silme',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2C3E50),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ..._totalCounts.keys.map((className) {
-              return ListTile(
-                leading: const Icon(Icons.delete_outline, color: Colors.red),
-                title: Text('$className verilerini sil'),
-                subtitle: Text('${_totalCounts[className]} nesne silinecek'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _deleteByClass(className);
-                },
-              );
-            }),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,8 +120,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
         actions: [
           if (_scans.isNotEmpty)
             IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: _showDeleteMenu,
+              icon: const Icon(Icons.delete_sweep),
+              onPressed: _clearAllData,
+              tooltip: 'Tümünü Temizle',
             ),
         ],
       ),
