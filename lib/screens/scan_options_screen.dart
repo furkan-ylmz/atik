@@ -34,11 +34,13 @@ class ScanOptionsScreen extends StatelessWidget {
         await File(image.path).copy(filePath);
 
         // Sonuç ekranına git
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => ResultScreen(imagePath: filePath),
-          ),
-        );
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => ResultScreen(imagePath: filePath),
+            ),
+          );
+        }
       }
     } catch (e) {
       if (context.mounted) {

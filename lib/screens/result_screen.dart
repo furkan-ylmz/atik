@@ -29,8 +29,12 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    _loadImage();
-    _runDetection();
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await _loadImage();
+    await _runDetection();
   }
 
   Future<void> _loadImage() async {
@@ -97,6 +101,56 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Loading durumunda sadece loading ekranı göster
+    if (_isLoading) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              // Geri butonu
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
+                  onPressed: () => Navigator.pop(context),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              // Loading ekranı
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 5,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Analiz ediliyor...',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Analiz tamamlandıktan sonra normal ekranı göster
     return Scaffold(
       body: Column(
         children: [
@@ -149,25 +203,6 @@ class _ResultScreenState extends State<ResultScreen> {
                     ),
                   ),
                 ),
-                
-                // Loading overlay
-                if (_isLoading)
-                  Container(
-                    color: Colors.black.withOpacity(0.7),
-                    child: const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(color: Colors.white),
-                          SizedBox(height: 20),
-                          Text(
-                            'Analiz ediliyor...',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),
