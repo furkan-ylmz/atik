@@ -75,14 +75,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 150,
-                    height: 150,
+                    padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.white.withOpacity(0.2),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.white.withOpacity(0.3),
                           blurRadius: 20,
                           spreadRadius: 5,
                         ),
@@ -91,26 +90,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     child: const Icon(
                       Icons.recycling,
                       size: 80,
-                      color: Color(0xFF6C63FF),
+                      color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 40),
                   const Text(
                     'Atık Tespit',
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 36,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      letterSpacing: 1.5,
+                      letterSpacing: 2,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
-                    'Yapay Zeka ile Atık Sınıflandırma',
+                    'Akıllı Geri Dönüşüm Asistanı',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Colors.white.withOpacity(0.9),
-                      letterSpacing: 0.5,
+                      letterSpacing: 1,
                     ),
                   ),
                 ],
