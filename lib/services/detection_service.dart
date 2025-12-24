@@ -14,7 +14,7 @@ class DetectionService {
   static Future<void> initialize() async {
     try {
       // Model yükle
-      _interpreter = await Interpreter.fromAsset('assets/best_float16.tflite');
+      _interpreter = await Interpreter.fromAsset('assets/best_float32.tflite');
       
       // Etiketleri yükle
       final labelsData = await rootBundle.loadString('assets/labels.txt');
