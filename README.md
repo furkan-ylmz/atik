@@ -1,27 +1,27 @@
-# Atık Tespit - Waste Detection App 🌿♻️
+# Atık Tespit - Waste Detection App
 
 Yapay zeka destekli atık tespit ve sınıflandırma mobil uygulaması.
 
-## 📱 Proje Hakkında
+## Proje Hakkında
 
 Atık Tespit, YOLOv8 modeli kullanarak atık nesneleri tespit eden ve sınıflandıran bir Flutter uygulamasıdır. Uygulama, çevre bilincini artırmak ve doğru geri dönüşüm alışkanlıklarını desteklemek amacıyla geliştirilmiştir.
 
-## ✨ Özellikler
+## Özellikler
 
-- 📸 **Kamera ile Tespit**: Gerçek zamanlı kamera ile atık fotoğrafı çekme
-- 🖼️ **Galeri Desteği**: Galeriden fotoğraf seçerek tespit yapma
-- 🎯 **5 Sınıf Tespiti**:
+- **Kamera ile Tespit**: Gerçek zamanlı kamera ile atık fotoğrafı çekme
+- **Galeri Desteği**: Galeriden fotoğraf seçerek tespit yapma
+- **5 Sınıf Tespiti**:
   - Cam (Glass)
   - Metal (Metal)
   - Organik (Organic)
   - Kağıt (Paper)
   - Plastik (Plastic)
-- 📊 **Tespit Sonuçları**: Bounding box ile görselleştirme
-- 💯 **Doğruluk Oranı**: Her tespit için güven skoru
-- 📚 **Geçmiş Kayıtları**: Önceki taramaları görüntüleme
-- 🗑️ **Veri Yönetimi**: Tüm geçmişi temizleme
+- **Tespit Sonuçları**: Bounding box ile görselleştirme
+- **Doğruluk Oranı**: Her tespit için güven skoru
+- **Geçmiş Kayıtları**: Önceki taramaları görüntüleme
+- **Veri Yönetimi**: Tüm geçmişi temizleme
 
-## 🧠 Teknolojiler
+## Teknolojiler
 
 - **Framework**: Flutter 3.x
 - **Dil**: Dart
@@ -31,7 +31,7 @@ Atık Tespit, YOLOv8 modeli kullanarak atık nesneleri tespit eden ve sınıflan
 - **ML**: tflite_flutter ^0.11.0
 - **Görsel İşleme**: image ^4.1.7
 
-## 📋 Gereksinimler
+## Gereksinimler
 
 - Flutter SDK 3.0 veya üzeri
 - Dart SDK 3.0 veya üzeri
@@ -39,7 +39,7 @@ Atık Tespit, YOLOv8 modeli kullanarak atık nesneleri tespit eden ve sınıflan
 - Android: minSdkVersion 26
 - iOS: iOS 12.0 veya üzeri
 
-## 🚀 Kurulum
+## Kurulum
 
 1. **Projeyi klonlayın**
 ```bash
@@ -57,7 +57,7 @@ flutter pub get
 flutter run
 ```
 
-## 📦 Bağımlılıklar
+## Bağımlılıklar
 
 ```yaml
 dependencies:
@@ -71,7 +71,7 @@ dependencies:
   image: ^4.1.7
 ```
 
-## 📱 Ekran Görüntüleri
+## Ekran Görüntüleri
 
 <p align="center">
   <img src="screenshots/home.png" width="250" alt="Ana Ekran" />
@@ -85,7 +85,7 @@ dependencies:
   <img src="screenshots/history.png" width="250" alt="Geçmiş" />
 </p>
 
-## 🏗️ Proje Yapısı
+## Proje Yapısı
 
 ```
 lib/
@@ -109,12 +109,10 @@ lib/
     └── app_theme.dart
 ```
 
-## 📝 Model Eğitimi
+## Model Eğitimi
 
 Kendi modelinizi eğitmek için:
 1. YOLOv8 kullanarak veri setinizi eğitin
 2. Modeli TFLite formatına dönüştürün
 3. `assets/` klasörüne yerleştirin
 4. `lib/services/detection_service.dart` dosyasında model adını güncelleyin
-
----
