@@ -112,7 +112,7 @@ lib/
 ## Model Eğitimi
 
 Kendi modelinizi eğitmek için:
-1. YOLOv8 kullanarak veri setinizi eğitin
+1. Veri setinizi eğitin
 2. Modeli TFLite formatına dönüştürün
 3. `assets/` klasörüne yerleştirin
 4. `lib/services/detection_service.dart` dosyasında model adını güncelleyin
