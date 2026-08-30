@@ -47,5 +47,7 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Atık tespiti için kameraya erişim gerekiyor.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Atık fotoğraflarını seçip analiz edebilmek için galeri erişimi gerekiyor.</string>
 </dict>
 </plist>
