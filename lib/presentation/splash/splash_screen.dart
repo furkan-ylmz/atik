@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'home_screen.dart';
+import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_constants.dart';
+import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,11 +15,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    
+    _setupAnimations();
+    _navigateToHome();
+  }
+
+  void _setupAnimations() {
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
@@ -27,20 +34,23 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
+    _scaleAnimation = Tween<double>(begin: 0.6, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
     );
 
     _controller.forward();
+  }
 
-    Timer(const Duration(seconds: 3), () {
+  void _navigateToHome() {
+    _timer = Timer(AppConstants.splashDuration, () {
+      if (!mounted) return;
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) => const HomeScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: AppConstants.animationDurationNormal,
         ),
       );
     });
@@ -48,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   void dispose() {
+    _timer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -56,13 +67,15 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).primaryColor.withOpacity(0.7),
+              AppColors.primary,
+              AppColors.primaryDark,
             ],
           ),
         ),
@@ -75,25 +88,25 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(28),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.3),
-                          blurRadius: 20,
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 30,
                           spreadRadius: 5,
                         ),
                       ],
                     ),
                     child: const Icon(
-                      Icons.recycling,
+                      Icons.recycling_rounded,
                       size: 80,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 36),
                   const Text(
                     'Atık Tespit',
                     style: TextStyle(

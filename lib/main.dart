@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/splash_screen.dart';
-import 'utils/app_theme.dart';
-import 'services/detection_service.dart';
+import 'core/theme/app_theme.dart';
+import 'core/utils/app_logger.dart';
+import 'data/repositories/detection_repository.dart';
+import 'presentation/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Sadece portrait modu
-  SystemChrome.setPreferredOrientations([
+
+  // Sadece dikey (portrait) modu destekle
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  
-  // Model servisini başlat
+
+  // Model ve etiketleri arka planda önceden başlat
   try {
-    await DetectionService.initialize();
-  } catch (e) {
-    print('Model başlatma hatası: $e');
+    final detectionRepository = DetectionRepository();
+    await detectionRepository.initialize();
+  } catch (e, stack) {
+    AppLogger.error('Uygulama başlangıcında model yüklenemedi', e, stack, 'main');
   }
-  
-  runApp(const MyApp());
+
+  runApp(const WasteDetectionApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class WasteDetectionApp extends StatelessWidget {
+  const WasteDetectionApp({super.key});
 
   @override
   Widget build(BuildContext context) {
