@@ -7,11 +7,26 @@
 ---
 
 <a name="english"></a>
-# AI-Powered Real-Time Waste Detection and Recycling Assistant
+# AI-Powered Waste Detection & Recycling Assistant
 
 **Waste-Detection-App** is a mobile computer vision application powered by **YOLOv8** and **TensorFlow Lite**, designed to detect, classify, and guide the recycling of solid waste in real time. 
 
 Engineered with **Clean Layered Architecture**, the application combines on-device Edge AI inference, an aspect-ratio-aware bounding box visualization engine, and atomic local persistence (SQLite + file storage) to promote environmental awareness and circular economy practices.
+
+---
+
+## Application Showcase
+
+<p align="center">
+  <img src="docs/home.png" width="31%" alt="Home Dashboard" />
+  <img src="docs/scan_options.png" width="31%" alt="Scan Selection" />
+  <img src="docs/camera.png" width="31%" alt="Camera Viewfinder" />
+</p>
+<p align="center">
+  <img src="docs/upload.png" width="31%" alt="Image Ingestion" />
+  <img src="docs/result.png" width="31%" alt="Detection Results" />
+  <img src="docs/history.png" width="31%" alt="Historical Scans" />
+</p>
 
 ---
 
@@ -94,34 +109,6 @@ Engineered with **Clean Layered Architecture**, the application combines on-devi
 | 🟤 **Organic** | Organik | `#8D6E63` (Brown) | `Organik` | Suitable for composting or organic biowaste collection containers. |
 | 🔵 **Paper** | Kağıt | `#2980B9` (Blue) | `Kagit` / `Paper` | Keep cardboard and paper clean and dry; do not mix with oily food boxes. |
 | 🟡 **Plastic** | Plastik | `#F1C40F` (Yellow) | `Plastik` / `Plastic` | Empty liquids and compress plastic containers before bin disposal. |
-
----
-
-## Application Interface & Visual Showcase
-
-<p align="center">
-  <img src="docs/home.png" width="280" alt="Home Screen" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/scan_options.png" width="280" alt="Scan Options" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/camera.png" width="280" alt="Camera Viewfinder" />
-</p>
-<p align="center">
-  <em>(Left) Home Dashboard &mdash; (Middle) Input Ingestion Selection &mdash; (Right) Real-Time Viewfinder</em>
-</p>
-
-<br>
-
-<p align="center">
-  <img src="docs/upload.png" width="280" alt="Gallery Upload" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/result.png" width="280" alt="Detection Results" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/history.png" width="280" alt="Scan History" />
-</p>
-<p align="center">
-  <em>(Left) Image Ingestion &mdash; (Middle) Detection Results & Bounding Boxes &mdash; (Right) Historical Analytics</em>
-</p>
 
 ---
 
@@ -235,11 +222,26 @@ flutter test
 ---
 
 <a name="türkçe"></a>
-# Yapay Zeka Destekli Gerçek Zamanlı Atık Tespit ve Geri Dönüşüm Asistanı
+# Yapay Zeka Destekli Atık Tespit ve Geri Dönüşüm Asistanı
 
 **Atık Tespit (Waste-Detection-App)**, katı atıkları gerçek zamanlı olarak tespit eden, sınıflandıran ve kullanıcıyı doğru geri dönüşüm yöntemlerine yönlendiren, **YOLOv8** ve **TensorFlow Lite** tabanlı bir mobil bilgisayarla görme (computer vision) uygulamasıdır.
 
 **Katmanlı Temiz Mimari (Clean Layered Architecture)** prensipleriyle geliştirilen uygulama; cihaz üzerinde çalışan Edge AI çıkarım motorunu, en-boy oranına duyarlı çizim katmanını ve yerel veri depolama (SQLite + dosya sistemi) altyapısını bir araya getirerek çevre bilincini ve döngüsel ekonomiyi destekler.
+
+---
+
+## Uygulama Arayüzü ve Ekran Görüntüleri
+
+<p align="center">
+  <img src="docs/home.png" width="31%" alt="Ana Karşılama Paneli" />
+  <img src="docs/scan_options.png" width="31%" alt="Tarama Yöntemi Seçimi" />
+  <img src="docs/camera.png" width="31%" alt="Canlı Kamera Vizörü" />
+</p>
+<p align="center">
+  <img src="docs/upload.png" width="31%" alt="Galeri Yükleme" />
+  <img src="docs/result.png" width="31%" alt="Bounding Box Analiz Sonuçları" />
+  <img src="docs/history.png" width="31%" alt="Geçmiş ve İstatistikler" />
+</p>
 
 ---
 
@@ -322,34 +324,6 @@ flutter test
 | 🟤 **Organik** | Organik | `#8D6E63` (Kahverengi) | `Organik` | Kompost yapılabilir veya biyolojik atık toplama haznelerine bırakılabilir. |
 | 🔵 **Kağıt** | Kağıt | `#2980B9` (Mavi) | `Kagit` / `Paper` | Kağıt ve kartonları ıslanmadan ve yağlanmadan kuru olarak ayrıştırınız. |
 | 🟡 **Plastik** | Plastik | `#F1C40F` (Sarı) | `Plastik` / `Plastic` | Sıvı atıklardan arındırıp kapaklarıyla birlikte plastik kumbarasına atınız. |
-
----
-
-## Sistemin Çalışması ve Ekran Görüntüleri
-
-<p align="center">
-  <img src="docs/home.png" width="280" alt="Ana Ekran" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/scan_options.png" width="280" alt="Tarama Seçenekleri" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/camera.png" width="280" alt="Kamera Vizörü" />
-</p>
-<p align="center">
-  <em>(Sol) Ana Karşılama Paneli &mdash; (Orta) Tarama Kaynağı Seçimi &mdash; (Sağ) Canlı Kamera Vizörü</em>
-</p>
-
-<br>
-
-<p align="center">
-  <img src="docs/upload.png" width="280" alt="Galeri Yükleme" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/result.png" width="280" alt="Tespit Sonuçları" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/history.png" width="280" alt="Tarama Geçmişi" />
-</p>
-<p align="center">
-  <em>(Sol) Fotoğraf Seçimi &mdash; (Orta) Bounding Box ve Analiz Sonuçları &mdash; (Sağ) Geçmiş ve Toplam İstatistikler</em>
-</p>
 
 ---
 
